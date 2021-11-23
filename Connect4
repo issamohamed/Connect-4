@@ -1,0 +1,37 @@
+# CS 111 FINAL PROJECT: CONNECT FOUR
+# Orignal code from Breakout Lab by Aaron Bauer
+# Modified and adapted for "Connect Four" Final Project by Issa Mohamed and Markus Gunadi 
+import tkinter as tk
+from tkinter import XView
+from connect4_pgl import GWindow, GOval, GRect, GTimer
+import random
+from dataclasses import dataclass
+
+box_dict = {}
+num_box = 0
+gw = GWindow(600, 700)
+for row in range(6):
+    for column in range(7):
+        num_box += 1
+        rect = GRect(column * 50 +100, row * 50 + 100, 50, 50)
+        box_dict[rect] = num_box
+        gw.add(rect)
+
+#Player Functions
+def click_action(e):
+    gobj = gw.getElementAt(e.getX(), e.getY())
+    #check x and y 
+    for row in range(6):
+        if gobj is not None:
+            print(gobj)
+        #if getattr(gobj, "click_action", None) is not None:
+        gobj.setFilled(True)
+        gobj.setColor("Red")
+        bot_action(gobj)
+
+#Computer Functions
+def bot_action(last_move):
+    
+    return None
+         
+gw.addEventListener("click", click_action)
