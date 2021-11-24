@@ -1,5 +1,7 @@
 # File: pgl.py
 
+# File: pgl.py
+
 """
 The pgl module implements the Portable Graphics Library (pgl) on top of
 Tkinter, which is the most common graphics package for use with Python.
