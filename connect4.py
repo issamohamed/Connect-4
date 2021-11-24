@@ -7,22 +7,6 @@ from tkinter.constants import TRUE
 from connect4_pgl import GWindow, GOval, GRect, GTimer
 import random
 from dataclasses import dataclass
-player_moves = [] 
-bot_moves = []
-open_spots = []
-box_dict = {}
-num_box = 0
-is_game_active = [True]
-gw = GWindow(600, 700)
-for row in range(6):
-    for column in range(7):
-        num_box += 1
-        rect = GRect(column * 50 +100, row * 50 + 100, 50, 50)
-        # rect.setColor('White')
-        # rect.setFilled(False)
-        box_dict[rect] = num_box
-        gw.add(rect)
-        open_spots.append(rect)
 
 
 #Player Functions
@@ -30,7 +14,7 @@ def click_action(e):
     if is_game_active[0] == True:
         gobj = gw.getElementAt(e.getX(), e.getY())
         if gobj: 
-            if gobj.getColor() != "#FF0000":
+            if gobj.getColor() != "#FF0000" and gobj.getColor() != "#0000FF":
                 gobj_x_value = gobj.getX()
                 gobj_y_value = gobj.getY()
                 lowest_spot = gobj
@@ -41,10 +25,14 @@ def click_action(e):
                         if current_spot_y_value > lowest_spot.getY():
                             lowest_spot = spot
                 gobj = lowest_spot
-                gobj.setFilled(True)
-                gobj.setColor("#FF0000")
                 player_moves.append(gobj)
                 open_spots.remove(gobj)
+                gobj.setColor("#FF0000")
+                # Making the Player's Piece
+                player_piece = GOval(gobj.getX(), gobj.getY(), 50, 50)
+                player_piece.setFilled(True)
+                player_piece.setColor("#FF0000")
+                gw.add(player_piece)
                 print("Turn", len(player_moves))
                 print("player has", 21 - len(player_moves), "pieces left.")
                 if check_connect4(player_moves) == True:
@@ -61,7 +49,7 @@ def click_action(e):
         else:
             print("Click Inside The Board!")
 
-#Computer Functions
+# Checking Win Conditions:
 def check_connect4(list_of_moves):
     if len(list_of_moves) < 4:
         return False
@@ -132,7 +120,7 @@ def check_connect4(list_of_moves):
                             print( "won left diag c4")
                             return True
     return False
-
+# How the game stops after a win or player runs out of pieces 
 def endgame(who_won, who_ran_out):
     print("Game Over.")
     if who_won == "Player":
@@ -146,9 +134,45 @@ def endgame(who_won, who_ran_out):
             print("Bot Has Run Out of Pieces.")
 
 
-    
+# Bot's Turn   
 def bot_action(last_move):
-    gobj = random.choice(open_spots)
+    last_move_x_value = last_move.getX()
+    intelligent_moves = {}
+    intelligent_moves["middle_move"] = ""
+    intelligent_moves["top_move"] = ""
+    intelligent_moves["side_move"] = ""
+
+    on_top_x_value = last_move_x_value
+    on_left_x_value = last_move_x_value - 50
+    on_right_x_value = last_move_x_value + 50
+    on_middle_x_value = 250
+
+    for spot in open_spots:
+        current_spot_x_value = spot.getX()
+        # first strategy: bot places a piece into the middle column 
+        if current_spot_x_value == on_middle_x_value:
+            intelligent_moves["middle_move"] = spot
+        # second strategy: bot places a piece on top of the player's last piece to block in response to possibly block their vertical strategy 
+        if current_spot_x_value == on_top_x_value:
+            intelligent_moves["top_move"] = spot
+        # third strategy: bot places a piece to the player's piece's side to block their possible horizontal strategy      
+        if current_spot_x_value == on_left_x_value or current_spot_x_value == on_right_x_value:
+            intelligent_moves["side_move"] = spot
+    bot_move_options = []
+    if intelligent_moves["middle_move"] != "":
+        bot_move_options.append(intelligent_moves["middle_move"])
+    if intelligent_moves["top_move"] != "":
+        bot_move_options.append(intelligent_moves["top_move"])
+    if intelligent_moves["side_move"] != "":
+        bot_move_options.append(intelligent_moves["side_move"])
+    if len(bot_move_options) > 0:
+        gobj = random.choice(bot_move_options)
+    else:
+         # default Strategy: bot randomly picks a column with an open spot   
+         gobj = random.choice(open_spots)
+
+
+# Based on what colum was picked, finding the lowest open spot in the column 
     lowest_spot = gobj
     for spot in open_spots:
         current_spot_x_value = spot.getX()
@@ -157,8 +181,12 @@ def bot_action(last_move):
             if current_spot_y_value > lowest_spot.getY():
                 lowest_spot = spot
     gobj = lowest_spot
-    gobj.setFilled(True)
-    gobj.setColor("#0000ff")
+    # Making the Bot's piece
+    gobj.setColor("#0000FF")
+    bot_piece = GOval(gobj.getX(), gobj.getY(), 50, 50)
+    bot_piece.setFilled(True)
+    bot_piece.setColor("#0000FF")
+    gw.add(bot_piece)
     bot_moves.append(gobj)
     open_spots.remove(gobj)
     print("bot has", 21 - len(bot_moves) , "pieces left.")
@@ -171,5 +199,20 @@ def bot_action(last_move):
 
     
     return None
+
+if __name__ == "__main__":
+    # Input Lists
+    player_moves = [] 
+    bot_moves = []
+    open_spots = []
+    is_game_active = [True]
+    # Making the Window and Grid
+    gw = GWindow(600, 700)
+    for row in range(6):
+        for column in range(7):
+            rect = GRect(column * 50 +100, row * 50 + 100, 50, 50)
+            gw.add(rect)
+            open_spots.append(rect)
+    gw.addEventListener("click", click_action)
+
          
-gw.addEventListener("click", click_action)
