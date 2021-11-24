@@ -84,7 +84,6 @@ def connectfour():
                 left_three_obj = gw.getElementAt(left_three_x_val,piece_y_val)
                 if (left_one_obj and left_two_obj and left_three_obj):
                     if ( (left_one_obj.getColor() == piece_color) and (left_two_obj.getColor() == piece_color) and (left_three_obj.getColor() == piece_color)):
-                                print("won left c4")
                                 return True
                 # 3 to the right
                 right_one_x_val = piece_x_val + 50
@@ -95,7 +94,6 @@ def connectfour():
                 right_three_obj = gw.getElementAt(right_three_x_val,piece_y_val)
                 if (right_one_obj and right_two_obj and right_three_obj):
                     if ( (right_one_obj.getColor() == piece_color) and (right_two_obj.getColor() == piece_color) and (right_three_obj.getColor() == piece_color)):
-                                print("won right c4")
                                 return True
                     # 3 above
                 above_one_y_val = piece_y_val - 50
@@ -106,7 +104,6 @@ def connectfour():
                 above_three_obj = gw.getElementAt(piece_x_val,above_three_y_val)
                 if (above_one_obj and above_two_obj and above_three_obj):
                     if ( (above_one_obj.getColor() == piece_color) and (above_two_obj.getColor() == piece_color) and (above_three_obj.getColor() == piece_color)):
-                                print("won above c4")
                                 return True
                     
                 # 3 below
@@ -118,7 +115,6 @@ def connectfour():
                 below_three_obj = gw.getElementAt(piece_x_val,below_three_y_val)
                 if (below_one_obj and below_two_obj and below_three_obj):
                     if ( (below_one_obj.getColor() == piece_color) and (below_two_obj.getColor() == piece_color) and (below_three_obj.getColor() == piece_color)):
-                                print("won below c4")
                                 return True
                 # 3 right diagonal down
                 right_diag_one_obj = gw.getElementAt(right_one_x_val, below_one_y_val)
@@ -126,7 +122,6 @@ def connectfour():
                 right_diag_three_obj = gw.getElementAt(right_three_x_val, below_three_y_val)
                 if (right_diag_one_obj and right_diag_two_obj and right_diag_three_obj):
                     if ( (right_diag_one_obj.getColor() == piece_color) and (right_diag_two_obj.getColor() == piece_color) and (right_diag_three_obj.getColor() == piece_color)):
-                                print("won right diag c4")
                                 return True
                 # 3 left diagonal down
                 left_diag_one_obj = gw.getElementAt(left_one_x_val, below_one_y_val)
@@ -134,7 +129,6 @@ def connectfour():
                 left_diag_three_obj = gw.getElementAt(left_three_x_val, below_three_y_val)
                 if (left_diag_one_obj and left_diag_two_obj and left_diag_three_obj):
                     if ( (left_diag_one_obj.getColor() == piece_color) and (left_diag_two_obj.getColor() == piece_color) and (left_diag_three_obj.getColor() == piece_color)):
-                                print( "won left diag c4")
                                 return True
         return False
     # How the game stops after a win or player runs out of pieces 
