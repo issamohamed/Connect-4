@@ -1,6 +1,6 @@
 # CS 111 FINAL PROJECT: CONNECT FOUR
 # Orignal code from Breakout Lab by Aaron Bauer
-# Modified and adapted for "Connect Four" Final Project by Issa Mohamed and Markus Gunadi 
+# Modified and adapted for "Connect Four" Final Project by Issa Mohamed 
 import tkinter as tk
 from tkinter import XView
 from tkinter.constants import TRUE
